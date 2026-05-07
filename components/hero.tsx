@@ -18,12 +18,12 @@ export function Hero() {
   return (
     <section
       id="waitlist"
-      className="relative min-h-screen flex items-center justify-center px-6 pt-24 pb-16 lg:px-8"
+      className="relative min-h-screen flex items-center justify-center px-6 pt-24 pb-16 lg:px-8 bg-[#e8f4fc]"
     >
       <div className="mx-auto max-w-3xl text-center">
         <div className="mb-8 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm text-foreground">
-            <Sparkles className="h-4 w-4 text-primary" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#4a9ede]/30 bg-white px-4 py-1.5 text-sm text-foreground shadow-sm">
+            <Sparkles className="h-4 w-4 text-[#4a9ede]" />
             <span>AI-Powered Shopping Assistant</span>
           </div>
         </div>
@@ -42,8 +42,8 @@ export function Hero() {
 
         <div className="mt-12">
           {submitted ? (
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/30 px-6 py-4 text-foreground">
-              <Sparkles className="h-5 w-5 text-primary" />
+            <div className="inline-flex items-center gap-2 rounded-full bg-white border border-[#4a9ede]/30 px-6 py-4 text-foreground shadow-sm">
+              <Sparkles className="h-5 w-5 text-[#4a9ede]" />
               <span className="font-medium">
                 You&apos;re on the list! We&apos;ll be in touch soon.
               </span>
@@ -59,11 +59,11 @@ export function Hero() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="flex-1 rounded-full border border-border bg-card px-5 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                className="flex-1 rounded-full border border-[#4a9ede]/30 bg-white px-5 py-3.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#4a9ede]/30 focus:border-[#4a9ede] transition-all shadow-sm"
               />
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#4a9ede] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#4a9ede]/30 transition-all hover:bg-[#3a8ecc] hover:shadow-xl hover:shadow-[#4a9ede]/40 focus:outline-none focus:ring-2 focus:ring-[#4a9ede]/50"
               >
                 Join Waitlist
                 <ArrowRight className="h-4 w-4" />
@@ -83,7 +83,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary/20 to-accent opacity-50 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#4a9ede]/30 to-[#a8d4f0]/40 opacity-60 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           style={{
             clipPath:
               "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
