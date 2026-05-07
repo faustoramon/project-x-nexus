@@ -59,7 +59,7 @@ export function Pricing() {
               }`}
             >
               {tier.featured && (
-                <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-foreground px-4 py-1 text-xs font-medium text-background">
+                <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-foreground px-4 py-1.5 text-xs font-medium text-card">
                   Most Popular
                 </span>
               )}

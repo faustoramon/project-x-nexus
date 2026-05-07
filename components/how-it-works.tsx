@@ -40,8 +40,8 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <div key={step.title} className="relative text-center lg:text-left">
               <div className="flex justify-center lg:justify-start">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/5 border border-border">
-                  <step.icon className="h-6 w-6 text-foreground" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20">
+                  <step.icon className="h-6 w-6 text-primary" />
                 </div>
               </div>
               <div className="mt-6">
