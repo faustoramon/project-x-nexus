@@ -41,7 +41,14 @@ export function Header() {
             Pricing
           </Link>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:gap-x-4">
+          <button
+            type="button"
+            onClick={() => alert("Login coming soon")}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Log in
+          </button>
           <Link
             href="#waitlist"
             className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90"
@@ -89,7 +96,17 @@ export function Header() {
                     Pricing
                   </Link>
                 </div>
-                <div className="py-6">
+                <div className="py-6 space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      alert("Login coming soon");
+                    }}
+                    className="-mx-3 block w-full rounded-lg px-3 py-2.5 text-center text-base font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+                  >
+                    Log in
+                  </button>
                   <Link
                     href="#waitlist"
                     className="-mx-3 block rounded-full bg-primary px-3 py-2.5 text-center text-base font-medium text-primary-foreground"
