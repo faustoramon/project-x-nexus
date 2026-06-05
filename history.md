@@ -22,3 +22,11 @@
 **New Subheadline:** Nexus automatically finds the lowest prices, compares deals across stores, and negotiates discounts on your behalf, ensuring you always get the best deal effortlessly.
 **New CTA:** Get Early Access to AI-Negotiated Savings
 **Status:** Deployed ✓
+
+## Run #4 — 2026-06-05 04:26 UTC
+**Metrics:** Pageviews: 11 | Clicks: 4 | CTR: 36.36%
+**Old Headline:** Never Overpay Again: Your AI Shopping Negotiator.
+**New Headline:** Let AI Negotiate Your Best Price. Every Time.
+**New Subheadline:** Nexus is your personal AI shopping assistant, effortlessly finding hidden deals, comparing prices, and bargaining for bigger discounts across every store, so you always pay less.
+**New CTA:** Join the Waitlist: Unlock Unbeatable Deals
+**Status:** Deployed ✓
