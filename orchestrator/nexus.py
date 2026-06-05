@@ -11,7 +11,7 @@ GEMINI_KEY   = os.getenv("GEMINI_API_KEY")
 PH_KEY       = os.getenv("POSTHOG_PERSONAL_API_KEY")
 PH_PROJECT   = os.getenv("POSTHOG_PROJECT_ID")
 PH_HOST      = "https://us.posthog.com"
-PAGE_FILE    = "app/page.tsx"
+PAGE_FILE    = "components/hero.tsx"
 HISTORY_FILE = "history.md"
 
 client = genai.Client(api_key=GEMINI_KEY)
@@ -80,12 +80,21 @@ Format: {{"headline": "...", "subheadline": "...", "cta": "..."}}
 # --- Step 4: Patch page.tsx ---
 def patch_page(old_source, new_copy):
     patched = old_source
-    patched = re.sub(r'(<h1[^>]*>)([^<]+)(</h1>)',
-                     rf'\g<1>{new_copy["headline"]}\g<3>', patched, count=1)
-    patched = re.sub(r'(<p[^>]*>)([^<]+)(</p>)',
-                     rf'\g<1>{new_copy["subheadline"]}\g<3>', patched, count=1)
-    patched = re.sub(r'(<button[^>]*>)([^<]+)(</button>)',
-                     rf'\g<1>{new_copy["cta"]}\g<3>', patched, count=1)
+    patched = re.sub(
+        r'(<h1[^>]*>)(.*?)(</h1>)',
+        rf'\g<1>{new_copy["headline"]}\g<3>',
+        patched, count=1, flags=re.DOTALL
+    )
+    patched = re.sub(
+        r'(Nexus is your intelligent shopping companion[^<]*)',
+        new_copy["subheadline"],
+        patched, count=1
+    )
+    patched = re.sub(
+        r'(Join Waitlist)',
+        new_copy["cta"],
+        patched, count=1
+    )
     shutil.copy(PAGE_FILE, PAGE_FILE + ".bak")
     with open(PAGE_FILE, "w") as f:
         f.write(patched)

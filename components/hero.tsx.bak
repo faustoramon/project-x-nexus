@@ -28,10 +28,17 @@ export function Hero() {
           </div>
         </div>
 
-        <h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">Unlock Effortless Savings with AI Negotiation.</h1>
+        <h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+          Shop smarter.
+          <br />
+          <span className="text-muted-foreground">Negotiate effortlessly.</span>
+        </h1>
 
         <p className="mt-8 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
-          Nexus is your intelligent shopping companion, automatically finding the best deals, comparing prices, and negotiating for you to maximize your savings.</p>
+          Nexus is your intelligent shopping companion that discovers the best
+          deals, compares prices across retailers, and negotiates on your behalf
+          — saving you time and money.
+        </p>
 
         <div className="mt-12">
           {submitted ? (
@@ -58,7 +65,7 @@ export function Hero() {
                 type="submit"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#4a9ede] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#4a9ede]/30 transition-all hover:bg-[#3a8ecc] hover:shadow-xl hover:shadow-[#4a9ede]/40 focus:outline-none focus:ring-2 focus:ring-[#4a9ede]/50"
               >
-                Get Early Access to Smart Savings
+                Join Waitlist
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
