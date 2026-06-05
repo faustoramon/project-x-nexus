@@ -28,10 +28,10 @@ export function Hero() {
           </div>
         </div>
 
-        <h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">Stop Overpaying. Our AI Finds & Guarantees Your Lowest Price.</h1>
+        <h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">Never Overpay Again. Our AI Guarantees Your Lowest Price.</h1>
 
         <p className="mt-8 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
-          Ditch the endless research and stressful haggling. Nexus intelligently finds, compares, and negotiates the best deals across the web, so you save time and money effortlessly.</p>
+          Ditch endless research and price anxiety. Nexus's AI automatically finds, compares, and locks in the absolute best deals, guaranteeing effortless savings.</p>
 
         <div className="mt-12">
           {submitted ? (
@@ -58,7 +58,7 @@ export function Hero() {
                 type="submit"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#4a9ede] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#4a9ede]/30 transition-all hover:bg-[#3a8ecc] hover:shadow-xl hover:shadow-[#4a9ede]/40 focus:outline-none focus:ring-2 focus:ring-[#4a9ede]/50"
               >
-                Get Early Access: Secure Your Lowest Price
+                Join Early Access: Guarantee My Lowest Price
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
