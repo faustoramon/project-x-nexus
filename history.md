@@ -46,3 +46,11 @@
 **New Subheadline:** Skip the endless research and haggling. Nexus intelligently finds, compares, and negotiates your best price, so you save money effortlessly.
 **New CTA:** Get Early Access to AI-Guaranteed Savings
 **Status:** Deployed ✓
+
+## Run #7 — 2026-06-05 05:22 UTC
+**Metrics:** Pageviews: 28 | Clicks: 7 | CTR: 25.0%
+**Old Headline:** Stop Overpaying. AI Guarantees You the Lowest Price, Every Single Time.
+**New Headline:** Stop Overpaying. Our AI Finds & Guarantees Your Lowest Price.
+**New Subheadline:** Ditch the endless research and stressful haggling. Nexus intelligently finds, compares, and negotiates the best deals across the web, so you save time and money effortlessly.
+**New CTA:** Get Early Access: Secure Your Lowest Price
+**Status:** Deployed ✓
