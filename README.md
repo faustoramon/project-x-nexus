@@ -1,35 +1,95 @@
-# project-x-nexus
+# Nexus — Human-in-the-Loop CRO Engine
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+## What Nexus Does
 
-## Built with v0
+Nexus is an automated Conversion Rate Optimization engine that fetches real user analytics from PostHog, sends them to Gemini AI to generate optimized landing page copy, and surgically patches the live Next.js frontend — all in a single command. Each iteration is timestamped and logged, creating a reproducible, auditable record of every copy change and the metrics that drove it.
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+---
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_QZiuetSPyZZ7KTmty2kSagvPvdEj)
+## The Problem
 
-## Getting Started
+CRO loops are broken. Analytics live in one tool, copywriters live in another, and a human — usually a PM or growth lead — manually bridges the gap: export data, write a brief, wait for copy, A/B test, repeat. This human bridge is slow, undocumented, and impossible to replay. Nexus collapses the silo.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## Architecture
+
+Nexus runs as a single-process orchestrator. The 5-step flow:
+
+```
+1. FETCH   → Pull live pageview + CTA click metrics from PostHog API
+2. GENERATE → Send metrics + current hero source to Gemini 2.5 Flash
+3. PARSE   → Extract structured {headline, subheadline, cta} JSON from response
+4. PATCH   → Surgically rewrite components/hero.tsx with new copy (regex, re.DOTALL)
+5. LOG     → Append timestamped iteration record to history.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A git push to `main` triggers an automatic Vercel deploy. The human stays in the loop only for the push — every other step is automated.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Radical simplicity is a deliberate systems design choice.** A single-process orchestrator with a flat file log is more auditable, more reproducible, and easier to reason about than a distributed agent graph.
 
-## Learn More
+```
+orchestrator/nexus.py          # The entire brain
+components/hero.tsx            # The file being patched each run
+history.md                     # Flat iteration log, auto-appended
+```
 
-To learn more, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+## Setup & Reproduction
 
-<a href="https://v0.app/chat/api/kiro/clone/faustoramon/project-x-nexus" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+```bash
+# 1. Install dependencies
+pip install google-genai posthog python-dotenv requests
+
+# 2. Set environment variables in .env.local
+POSTHOG_PERSONAL_API_KEY=your_key
+POSTHOG_PROJECT_ID=your_project_id
+GEMINI_API_KEY=your_key
+
+# 3. Run the engine
+python3 orchestrator/nexus.py
+```
+
+After the script completes, push to deploy:
+
+```bash
+git add -A && git commit -m 'run: iteration N' && git push origin main
+```
+
+Vercel auto-deploys on push. No other infrastructure required.
+
+---
+
+## Iteration Log
+
+Every run appends a timestamped entry to [`history.md`](./history.md), recording the metrics seen and the copy generated. Three iterations are logged as of submission.
+
+---
+
+## AI & Tool Attribution
+
+| Tool | Role |
+|---|---|
+| **v0 (Vercel)** | Frontend scaffold — generated the initial Next.js landing page component structure |
+| **Gemini 2.5 Flash (`google-genai`)** | Copy generation — receives live metrics + hero source, returns `{headline, subheadline, cta}` JSON |
+| **PostHog** | Analytics backend — real pageview and CTA click data used as the optimization signal |
+| **Claude (Anthropic)** | README drafting and project handoff support |
+
+---
+
+## Live Demo
+
+**Live site:** [https://project-x-nexus.vercel.app](https://project-x-nexus.vercel.app)
+
+**GitHub:** [https://github.com/faustoramon/project-x-nexus](https://github.com/faustoramon/project-x-nexus)
+
+---
+
+## External Resources & Citations
+
+- [PostHog REST API](https://posthog.com/docs/api) — analytics data source
+- [Google Gemini API (`google-genai`)](https://ai.google.dev/gemini-api/docs) — copy generation model
+- [Vercel](https://vercel.com/docs) — deployment platform (git push → auto-deploy)
+- [Next.js](https://nextjs.org/docs) — frontend framework
+- Frontend scaffold generated with [v0 by Vercel](https://v0.dev)
