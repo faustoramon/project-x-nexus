@@ -6,7 +6,6 @@ from google import genai
 
 load_dotenv(".env.local")
 
-# --- Config ---
 GEMINI_KEY   = os.getenv("GEMINI_API_KEY")
 PH_KEY       = os.getenv("POSTHOG_PERSONAL_API_KEY")
 PH_PROJECT   = os.getenv("POSTHOG_PROJECT_ID")
@@ -16,11 +15,9 @@ HISTORY_FILE = "history.md"
 
 client = genai.Client(api_key=GEMINI_KEY)
 
-# --- Step 1: Auto-fetch PostHog metrics ---
 def fetch_metrics():
     print("📊 Fetching PostHog metrics...")
     headers = {"Authorization": f"Bearer {PH_KEY}"}
-
     def hogql(query):
         r = requests.post(
             f"{PH_HOST}/api/projects/{PH_PROJECT}/query/",
@@ -29,31 +26,17 @@ def fetch_metrics():
         )
         r.raise_for_status()
         return r.json()["results"]
-
-    pageviews = hogql("""
-        SELECT count() FROM events
-        WHERE event = '$pageview'
-        AND timestamp > now() - interval 7 day
-    """)[0][0]
-
-    cta_clicks = hogql("""
-        SELECT count() FROM events
-        WHERE event = '$autocapture'
-        AND timestamp > now() - interval 7 day
-        AND properties.$el_text LIKE '%Join Waitlist%'
-    """)[0][0]
-
+    pageviews = hogql("SELECT count() FROM events WHERE event = '$pageview' AND timestamp > now() - interval 7 day")[0][0]
+    cta_clicks = hogql("SELECT count() FROM events WHERE event = '$autocapture' AND timestamp > now() - interval 7 day AND properties.$el_text LIKE '%Join Waitlist%'")[0][0]
     ctr = round((cta_clicks / pageviews * 100), 2) if pageviews > 0 else 0
     metrics = {"pageviews_7d": pageviews, "cta_clicks_7d": cta_clicks, "ctr_pct": ctr}
     print(f"   ✓ Pageviews: {pageviews} | CTA Clicks: {cta_clicks} | CTR: {ctr}%")
     return metrics
 
-# --- Step 2: Read current copy from page.tsx ---
 def read_current_copy():
     with open(PAGE_FILE, "r") as f:
         return f.read()
 
-# --- Step 3: Call Gemini to generate optimized copy ---
 def generate_copy(metrics, current_source):
     print("🤖 Generating optimized copy via Gemini...")
     prompt = f"""
@@ -77,30 +60,31 @@ Format: {{"headline": "...", "subheadline": "...", "cta": "..."}}
     print(f"   ✓ New headline: \"{copy['headline']}\"")
     return copy
 
-# --- Step 4: Patch page.tsx ---
 def patch_page(old_source, new_copy):
     patched = old_source
+    # Patch headline
     patched = re.sub(
         r'(<h1[^>]*>)(.*?)(</h1>)',
         rf'\g<1>{new_copy["headline"]}\g<3>',
         patched, count=1, flags=re.DOTALL
     )
+    # Patch subheadline — match the <p> tag after mt-8
     patched = re.sub(
-        r'(Nexus is your intelligent shopping companion[^<]*)',
-        new_copy["subheadline"],
-        patched, count=1
+        r'(<p className="mt-8[^"]*"[^>]*>\s*)(.*?)(\s*</p>)',
+        rf'\g<1>{new_copy["subheadline"]}\g<3>',
+        patched, count=1, flags=re.DOTALL
     )
+    # Patch CTA button — match any text inside the submit button before the ArrowRight icon
     patched = re.sub(
-        r'(Join Waitlist)',
-        new_copy["cta"],
-        patched, count=1
+        r'(type="submit"[^>]*>)\s*(.*?)\s*(<ArrowRight)',
+        rf'\g<1>\n                {new_copy["cta"]}\n                \g<3>',
+        patched, count=1, flags=re.DOTALL
     )
     shutil.copy(PAGE_FILE, PAGE_FILE + ".bak")
     with open(PAGE_FILE, "w") as f:
         f.write(patched)
     print(f"   ✓ Patched {PAGE_FILE}")
 
-# --- Step 5: Append to history.md ---
 def log_run(run_num, metrics, old_source, new_copy):
     old_h = re.search(r'<h1[^>]*>([^<]+)</h1>', old_source)
     entry = f"""
@@ -116,7 +100,6 @@ def log_run(run_num, metrics, old_source, new_copy):
         f.write(entry)
     print(f"   ✓ Logged to {HISTORY_FILE}")
 
-# --- Run count helper ---
 def next_run_number():
     try:
         with open(HISTORY_FILE, "r") as f:
@@ -124,7 +107,6 @@ def next_run_number():
     except FileNotFoundError:
         return 1
 
-# --- Main ---
 if __name__ == "__main__":
     print("\n🚀 NEXUS — CRO Orchestrator\n")
     run_num = next_run_number()
@@ -133,4 +115,4 @@ if __name__ == "__main__":
     new_copy = generate_copy(metrics, old_source)
     patch_page(old_source, new_copy)
     log_run(run_num, metrics, old_source, new_copy)
-print(f"\n✅ Run #{run_num} complete. Now run:\n\n   git add -A && git commit -m 'run: iteration {run_num}' && git push origin main\n")
+    print(f"\n✅ Run #{run_num} complete. Now run:\n\n   git add -A && git commit -m 'run: iteration {run_num}' && git push origin main\n")

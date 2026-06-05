@@ -28,7 +28,7 @@ export function Hero() {
           </div>
         </div>
 
-        <h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">Never Overpay Again: Your AI Shopping Negotiator.</h1>
+        <h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">Let AI Negotiate Your Best Price. Every Time.</h1>
 
         <p className="mt-8 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
           Nexus automatically finds the lowest prices, compares deals across stores, and negotiates discounts on your behalf, ensuring you always get the best deal effortlessly.</p>
